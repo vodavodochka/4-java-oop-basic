@@ -1,46 +1,57 @@
 package com.example.task05;
 
-/**
- * Ломаная линия
- */
+
 public class PolygonalLine {
 
-    /**
-     * Устанавливает точки ломаной линии
-     *
-     * @param points массив точек, которыми нужно проинициализировать ломаную линию
-     */
+    private Point[] points;
+
+
     public void setPoints(Point[] points) {
-        // TODO: реализовать
+        Point[] newArray = new Point[points.length];
+        for (int i = 0; i < points.length; i++) {
+            newArray[i] = new Point(points[i].getX(), points[i].getY());
+        }
+        this.points = newArray;
     }
 
-    /**
-     * Добавляет точку к ломаной линии
-     *
-     * @param point точка, которую нужно добавить к ломаной
-     */
     public void addPoint(Point point) {
-        // TODO: реализовать
+        if (this.points == null) {
+            this.points = new Point[]{
+                    new Point(point.getX(), point.getY())
+            };
+            return;
+        }
+
+        Point[] newArray = new Point[this.points.length + 1];
+        System.arraycopy(this.points, 0, newArray, 0, this.points.length);
+        newArray[this.points.length] =
+                new Point(point.getX(), point.getY());
+        this.points = newArray;
     }
 
-    /**
-     * Добавляет точку к ломаной линии
-     *
-     * @param x координата по оси абсцисс
-     * @param y координата по оси ординат
-     */
+
     public void addPoint(double x, double y) {
-        // TODO: реализовать
+        if (this.points == null){
+            this.points = new Point[] {new Point(x,y)};
+            return;
+        }
+
+        Point[] newArray = new Point[this.points.length + 1];
+        System.arraycopy(this.points, 0, newArray, 0, this.points.length);
+        newArray[this.points.length] = new Point(x, y);
+        this.points = newArray;
     }
 
-    /**
-     * Возвращает длину ломаной линии
-     *
-     * @return длину ломаной линии
-     */
     public double getLength() {
-        // TODO: реализовать
-        throw new AssertionError();
+        double length = 0;
+        if (this.points == null || this.points.length == 1) {
+            return 0;
+        }
+
+        for (int i = 1; i < this.points.length; i++) {
+            length += this.points[i-1].getLength(this.points[i]);
+        }
+        return length;
     }
 
 }
